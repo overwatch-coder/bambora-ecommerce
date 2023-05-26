@@ -8,11 +8,7 @@ import { redirect, useRouter } from 'next/navigation';
 import { useCart } from 'react-use-cart';
 import PaymentComplete from '../components/PaymentComplete';
 import ConfirmPayment from '../components/ConfirmPayment';
-
-export const metadata = {
-    title: 'Confirm Payment | Bambora Ecommerce',
-    description: 'Confirm your payment on Bambora Ecommerce',
-  }
+import Head from 'next/head';
 
 const CofirmDetails = () => {
     const { totalProductsPrice, paymentInfo, setTotalProductsPrice } = useContext(ProductContext);
@@ -61,25 +57,30 @@ const CofirmDetails = () => {
     if((!isConfirmed && (totalProductsPrice === 0 || isEmpty))) return router.push('/');
 
   return (
-    <section 
+    <>
+        <Head>
+            <title>Confirm Payment | Bambora Ecommerce</title>
+            <meta name="description" content="Confirm your payment on Bambora Ecommerce" />
+        </Head>
+        <section 
         className={`${isConfirmed ? "max-w-lg" : "max-w-3xl"} mx-auto shadow-md mt-10 p-5 mb-20 rounded-2 border-gray-500`}
-    >
-
-    {isConfirmed ? 
-        <PaymentComplete
+        >
+        
+        {isConfirmed ? 
+            <PaymentComplete
             paymentId={paymentId} 
-        /> 
-        : 
-    (
-        <ConfirmPayment 
-            paymentInfo={paymentInfo}
-            confirmPayment={confirmPayment}
-            cancelPayment={cancelPayment}
-        />
+            /> 
+            : 
+            (
+                <ConfirmPayment 
+                paymentInfo={paymentInfo}
+                confirmPayment={confirmPayment}
+                cancelPayment={cancelPayment}
+                />
+                )}
+                
+        </section>
+    </>
     )}
-
-    </section>
-  )
-}
-
-export default CofirmDetails
+        
+        export default CofirmDetails

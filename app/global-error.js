@@ -5,6 +5,9 @@ import Link from "next/link";
 export default function GlobalError({ error, reset }) {
   return (
     <html>
+      <head>
+        <title>Oops! Something went wrong!</title>
+      </head>
       <body>
         <div className='flex flex-col space-y-6 items-center mx-auto text-center mt-10'>
           <h2 className='text-4xl font-bold'>Something went wrong!</h2>

@@ -8,11 +8,7 @@ import Address from '../components/Address'
 import CreditCard from '../components/CreditCard'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-
-export const metadata = {
-    title: 'Checkout and Pay | Bambora Ecommerce',
-    description: 'Checkout, fill your address and billing info to process payment',
-}
+import Head from 'next/head'
 
 const BillingAddress = () => {
     const router = useRouter();
@@ -142,6 +138,11 @@ const BillingAddress = () => {
     if(isEmpty || totalProductsPrice === 0) return router.push('/');
 
   return (
+    <>
+    <Head>
+        <title>Checkout and Pay | Bambora Ecommerce</title>
+        <meta name="description" content="Checkout, fill your address and billing info to process payment" />
+    </Head>
     <form 
         onSubmit={handleBilling}
     >
@@ -161,6 +162,7 @@ const BillingAddress = () => {
             />
         </div>
     </form>
+    </>
   )
 }
 

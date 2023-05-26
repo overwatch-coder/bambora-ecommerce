@@ -5,14 +5,16 @@ import { useCart } from 'react-use-cart'
 import Link from 'next/link'
 import Image from 'next/image'
 import ProductCart from '../components/ProductCart'
-
-export const metadata = {
-  title: 'Your Cart | Bambora Ecommerce',
-}
+import Head from 'next/head'
 
 const CartPage = () => {
   const { items, removeItem, isEmpty, updateItemQuantity, emptyCart, cartTotal } = useCart();
   return (
+    <>
+    <Head>
+      <title>Your Cart | Bambora Ecommerce</title>
+    </Head>
+
     <div className="px-7">
         {isEmpty ?
           <div className="flex flex-col items-center gap-y-7 text-center mx-auto">
@@ -48,6 +50,7 @@ const CartPage = () => {
           </div>
         }
       </div>
+    </>
   )
 }
 
