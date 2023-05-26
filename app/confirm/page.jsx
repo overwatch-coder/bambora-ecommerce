@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react'
 import { ProductContext } from '../Context/ProductContext'
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useCart } from 'react-use-cart';
 import PaymentComplete from '../components/PaymentComplete';
 import ConfirmPayment from '../components/ConfirmPayment';
@@ -40,11 +40,17 @@ const CofirmDetails = () => {
         const paymentID = await paymentResponse.data.id;
         toast.success(`Payment of ${totalProductsPrice} confirmed successfully!`);
         setIsConfirmed(true);
-        setPaymentId(paymentID);
+        setPaymentId(paymentInfo.order_number);
 
         // empty the cart
         emptyCart();
         setTotalProductsPrice(0);
+        
+        setTimeout(() => {
+            setIsConfirmed(false);
+            redirect('/');
+        }, 5000);
+
     }
 
     const cancelPayment = () => {

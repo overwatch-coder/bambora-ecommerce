@@ -15,28 +15,13 @@ export const metadata = {
 }
 
 const BillingAddress = () => {
+    const router = useRouter();
+
     const { isEmpty } = useCart();
     const { totalProductsPrice, setPaymentInfo } = useContext(ProductContext);
-    const router = useRouter();
+    
     const [isLoading, setIsLoading] = useState(false);
-
-    alert(JSON.parse(localStorage.getItem('customerid')));
-    useEffect(() => {
-
-        const deleteExistingProfile = async () => {
-            const customerId = localStorage.getItem('customerId');
-            if(customerId){
-                const res = await axios.delete('/api/profile', customerId);
-                if(res.status !== 200) throw new Error('Oops, something went wrong. Try again later!');
-
-                const profileId = await res.data;
-                console.log(profileId);
-
-                localStorage.removeItem('customerId');
-            }
-        }
-        deleteExistingProfile();
-    }, []);
+    const [profile, setProfile] = useState(() => JSON.parse(localStorage.getItem('profile')) || {});
 
     //get reference to card details
     const [address, setAddress] = useState({
@@ -63,18 +48,22 @@ const BillingAddress = () => {
         e.preventDefault();
 
         setIsLoading(true);
-        //delete existing profile
-        const deleteExistingProfile = async () => {
-            const customerId = JSON.parse(localStorage.getItem('customerId'));
-            if(customerId){
-                const res = await axios.delete('/api/profile', customerId);
-                if(res.status !== 200) throw new Error('Oops, something went wrong. Try again later!');
-  
-                const profileId = await res.data;
-                console.log(profileId);
-                
-                localStorage.removeItem('customerId');
-            }
+        
+        //clear previous profile
+        if(Object.keys(profile).length > 0) {
+            const res = await axios.post('/api/profile/profile_id', profile.id);
+
+            if(res.status !== 200) throw new Error('Oops, something went wrong. Try again later!');
+
+            const data = await res.data;
+
+            toast.success('Profile ' + data + 'deleted successfully');
+
+            localStorage.removeItem('profile');
+            setProfile({});
+        }else{
+            localStorage.removeItem('profile');
+            setProfile({});
         }
 
         //generate card token
@@ -100,8 +89,11 @@ const BillingAddress = () => {
 
         const profileData = await addressResponse.data;
 
-        localStorage.setItem('customerId', JSON.stringify(profileData.customer_code));
+        //save profile info to localstorage
+        setProfile({id: profileData.customer_code});
+        localStorage.setItem('profile', JSON.stringify({id: profileData.customer_code}));
 
+        //get all neccessary info and save to context provider
         setPaymentInfo(prev => ({
             ...prev,
             token: token,
@@ -111,13 +103,17 @@ const BillingAddress = () => {
             expiry: `${card.expiry_month}/${card.expiry_year}`,
             name: card.name,
             address: `${address.address_line1}, ${address.city}, ${address.country} ${address.postal_code}`,
-            email: address.email_address 
+            email: address.email_address,
+            price: Number(totalProductsPrice).toFixed(2) 
         }));
 
+        //send success message to client
         toast.success('Payment profile created successfully!');
 
+        //set loading to false
         setIsLoading(false);
-        
+
+        //clear address and card input fields
         setAddress({
             name : "",
             address_line1 : "",

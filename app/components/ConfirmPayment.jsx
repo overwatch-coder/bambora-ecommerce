@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ConfirmPayment = ({paymentInfo, confirmPayment, cancelPayment, totalProductsPrice}) => {
+const ConfirmPayment = ({paymentInfo, confirmPayment, cancelPayment}) => {
   return (
     <section>
         <h1 className='font-[georgia] font-semibold text-2xl my-3'>Confirm your Payment</h1>
@@ -34,12 +34,12 @@ const ConfirmPayment = ({paymentInfo, confirmPayment, cancelPayment, totalProduc
             </div>
 
             <div
-                className='bg-slate-800 text-white flex flex-col space-y-4 p-3 rounded'
+                className='bg-slate-800 text-white flex flex-col space-y-5 p-3 rounded'
             >
                 <h2 className='font-semibold'>Payment Summary</h2>
-                <p>Order Number: {paymentInfo.order_number}</p>
+                <p className='text-sm'>Order Number: {paymentInfo.order_number}</p>
                 <h3>Total amount:</h3>
-                <h2 className='font-bold text-3xl'>${totalProductsPrice}</h2>
+                <h2 className='font-bold text-3xl'>${paymentInfo.price}</h2>
             </div>
         </div>
         
