@@ -24,7 +24,9 @@ const CartPage = () => {
               height={300}
             />
 
-            <h3 className="text-xl md:text-3xl font-poppins capitalize">Your cart is currently <span className="text-red-600">empty</span></h3>
+            <h3 className="text-xl md:text-3xl font-poppins capitalize">
+              Your cart is currently <span className="text-red-600">empty</span>
+            </h3>
 
             <Link
               href='/' 

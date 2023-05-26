@@ -12,8 +12,11 @@ const ProductCart = ({
     clearCart,
     addQuantity,
     removeQuantity,
-    totalPrice}) => {
-    const { totalItems } = useCart();
+    totalPrice
+}) => {
+
+    const { totalUniqueItems, totalItems } = useCart();
+
     let shippingFee = 10;
 
     const {totalProductsPrice, setTotalProductsPrice} = useContext(ProductContext);
@@ -31,7 +34,7 @@ const ProductCart = ({
                     Shopping Cart
                 </span>
                 <span className="text-base font-bold">
-                    {products.length} unique items
+                    {totalUniqueItems} unique items
                 </span>
             </h2>}
 
@@ -64,7 +67,7 @@ const ProductCart = ({
                         </h4>
 
                         <h4 className='font-medium pt-4 md:pt-0'>
-                            $ {product.itemTotal.toFixed(2)}
+                            $ {Number(product.itemTotal).toFixed(2)}
                         </h4>
 
                         <button 
@@ -107,7 +110,7 @@ const ProductCart = ({
             <div className='flex flex-col gap-y-5 py-5 mb-auto'>
                 <h3 className='flex justify-between items-center'>
                     <span className='font-medium'>Subtotal ({totalItems} items)</span>
-                    <span className='text-lg font-semibold'>${ totalPrice.toFixed(2) }</span>
+                    <span className='text-lg font-semibold'>${ Number(totalPrice).toFixed(2) }</span>
                 </h3>
 
                 <h3 className='flex justify-between items-center'>
@@ -118,10 +121,10 @@ const ProductCart = ({
 
             <h3 className='flex justify-between items-center'>
                 <span className='font-medium'>Total</span>
-                <span className='text-lg font-semibold'>${ totalProductsPrice }</span>
+                <span className='text-lg font-semibold'>${ Number(totalProductsPrice).toFixed(2) }</span>
             </h3>
             <Link 
-                href={'/billing'} 
+                href={'/checkout'} 
                 className='py-3 px-4 bg-green-600 hover:bg-green-700 text-white uppercase text-center mx-auto my-3 w-full transition'
             >
                 Checkout
