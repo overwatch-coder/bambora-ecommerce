@@ -68,7 +68,7 @@ const CofirmDetails = () => {
         
         {isConfirmed ? 
             <PaymentComplete
-            paymentId={paymentId} 
+                paymentId={paymentId} 
             /> 
             : 
             (
