@@ -1,9 +1,9 @@
 "use client"
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ProductContext } from '../Context/ProductContext'
 import { useCart } from 'react-use-cart'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import Address from '../components/Address'
 import CreditCard from '../components/CreditCard'
 import axios from 'axios'
@@ -13,11 +13,18 @@ import Head from 'next/head'
 const BillingAddress = () => {
     const router = useRouter();
 
+    let localProfile = {};
+    
+    if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        localProfile = JSON.parse(localStorage.getItem('profile'));
+    }
+
     const { isEmpty } = useCart();
     const { totalProductsPrice, setPaymentInfo } = useContext(ProductContext);
     
     const [isLoading, setIsLoading] = useState(false);
-    const [profile, setProfile] = useState(() => JSON.parse(localStorage.getItem('profile')) || {});
+    const [profile, setProfile] = useState(Object.keys(localProfile).keys > 0 ? localProfile : {});
 
     //get reference to card details
     const [address, setAddress] = useState({
@@ -135,7 +142,7 @@ const BillingAddress = () => {
     }
 
     //redirect to homepage if cart is empty
-    if(isEmpty || totalProductsPrice === 0) return router.push('/');
+    if(isEmpty || totalProductsPrice === 0) return redirect('/');
 
   return (
     <>

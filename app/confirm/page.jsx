@@ -54,7 +54,7 @@ const CofirmDetails = () => {
         router.push('/cart');
     }
 
-    if((!isConfirmed && (totalProductsPrice === 0 || isEmpty))) return router.push('/');
+    if((!isConfirmed && (totalProductsPrice === 0 || isEmpty))) return redirect('/');
 
   return (
     <>
@@ -77,7 +77,7 @@ const CofirmDetails = () => {
                 confirmPayment={confirmPayment}
                 cancelPayment={cancelPayment}
                 />
-                )}
+            )}
                 
         </section>
     </>
