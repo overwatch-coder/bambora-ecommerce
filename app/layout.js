@@ -2,6 +2,7 @@ import './globals.css'
 import ProductContextProvider from './Context/ProductContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import axios from 'axios';
 
 
 export const metadata = {
@@ -10,6 +11,9 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+
+  axios.defaults.baseURL = process.env.NODE_ENV === "development" ? 'http://localhost:3000' : process.env.API_BASE_URL;
+
   return (
     <html lang="en">
       <body className='font-[poppins] scroll-smooth overflow-x-hidden'>
