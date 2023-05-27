@@ -17,7 +17,7 @@ const BillingAddress = () => {
     
     if (typeof window !== 'undefined') {
         // Perform localStorage action
-        localProfile = JSON.parse(localStorage.getItem('profile'));
+        localProfile = JSON.parse(localStorage.getItem('profile')) || {};
     }
 
     const { isEmpty } = useCart();
